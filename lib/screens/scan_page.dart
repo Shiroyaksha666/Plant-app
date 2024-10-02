@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:plant_app/Func/camerascanner.dart';
 import 'package:plant_app/statics/consts.dart';
 
 class ScanPage extends StatefulWidget {
@@ -8,7 +10,7 @@ class ScanPage extends StatefulWidget {
   State<ScanPage> createState() => _ScanPageState();
 }
 
-class _ScanPageState extends State<ScanPage> {
+class _ScanPageState extends State<ScanPage> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -74,7 +76,13 @@ class _ScanPageState extends State<ScanPage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            PageTransition(
+                                child: const CameraScanner(),
+                                type: PageTransitionType.bottomToTop));
+                      },
                       child: Image.asset(
                         'assets/images/code-scan.png',
                         height: 100,
