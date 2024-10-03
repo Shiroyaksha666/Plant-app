@@ -102,7 +102,16 @@ class _CameraScannerState extends State<CameraScanner>
                     ),
                     child: IconButton(
                       onPressed: () => controller.toggleTorch(),
-                      icon: const Icon(Icons.abc),
+                      icon: controller.value.torchState.toString() ==
+                              'TorchState.off'
+                          ? const Icon(
+                              Icons.flash_off,
+                              color: Colors.white,
+                            )
+                          : const Icon(
+                              Icons.flash_on,
+                              color: Colors.yellow,
+                            ),
                     )),
               ),
             ],
