@@ -81,7 +81,7 @@ class _ScanPageState extends State<ScanPage> with WidgetsBindingObserver {
                             context,
                             PageTransition(
                                 child: const CameraScanner(),
-                                type: PageTransitionType.bottomToTop));
+                                type: PageTransitionType.fade));
                       },
                       child: Image.asset(
                         'assets/images/code-scan.png',

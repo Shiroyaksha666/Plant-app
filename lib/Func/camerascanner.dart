@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:flutter/material.dart';
+import 'package:plant_app/statics/consts.dart';
 import 'package:qr_scanner_overlay/qr_scanner_overlay.dart';
 
 class CameraScanner extends StatefulWidget {
@@ -59,7 +60,54 @@ class _CameraScannerState extends State<CameraScanner>
           controller: controller,
           onDetect: (barcodes) {},
         ),
-        QRScannerOverlay()
+        QRScannerOverlay(
+          overlayColor: Colors.black.withOpacity(0.5),
+        ),
+        Positioned(
+          top: 70,
+          right: 22,
+          left: 22,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                // x button
+                child: Container(
+                  height: 40,
+                  width: 40,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50),
+                    color: Consts.primaryColor.withOpacity(0.2),
+                  ),
+                  child: const Icon(
+                    Icons.close,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              // like button
+              GestureDetector(
+                onTap: () {
+                  //complete on tap of share button
+                },
+                child: Container(
+                    height: 40,
+                    width: 40,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50),
+                      color: Consts.primaryColor.withOpacity(0.2),
+                    ),
+                    child: IconButton(
+                      onPressed: () => controller.toggleTorch(),
+                      icon: const Icon(Icons.abc),
+                    )),
+              ),
+            ],
+          ),
+        ),
       ],
     );
   }
