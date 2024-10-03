@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:plant_app/Models/plant.dart';
 import 'package:plant_app/screens/cart_page.dart';
 import 'package:plant_app/screens/favourite_page.dart';
 import 'package:plant_app/screens/home_page.dart';
@@ -17,12 +18,16 @@ class UnchangablePage extends StatefulWidget {
 
 class _UnchangablePageState extends State<UnchangablePage> {
   int iconIndex = 0;
-  List<Widget> pages = const [
-    HomePage(),
-    FavouritePage(),
-    CartPage(),
-    ProfilePage(),
-  ];
+  List<Plant> favorites = [];
+  List<Plant> cart = [];
+  List<Widget> pages() {
+    return [
+      const HomePage(),
+      FavouritePage(favoritedPlant: favorites),
+      CartPage(myCart: cart),
+      const ProfilePage(),
+    ];
+  }
 
   List<IconData> iconlist = [
     Icons.home,
@@ -67,7 +72,7 @@ class _UnchangablePageState extends State<UnchangablePage> {
         ),
         body: IndexedStack(
           index: iconIndex,
-          children: pages,
+          children: pages(),
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
@@ -99,6 +104,8 @@ class _UnchangablePageState extends State<UnchangablePage> {
           onTap: (int value) {
             setState(() {
               iconIndex = value;
+              favorites = Plant.getFavoritedPlants().toSet().toList();
+              cart = Plant.addedToCartPlants().toSet().toList();
             });
           },
         ));
