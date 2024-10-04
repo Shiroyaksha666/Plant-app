@@ -78,6 +78,7 @@ class _HomePageState extends State<HomePage> {
               height: 70,
               width: size.width,
               child: ListView.builder(
+                physics: const BouncingScrollPhysics(),
                 scrollDirection: Axis.horizontal,
                 itemCount: _plantTypes.length,
                 reverse: true,
@@ -109,6 +110,7 @@ class _HomePageState extends State<HomePage> {
             SizedBox(
               height: size.height * 0.3,
               child: ListView.builder(
+                physics: const BouncingScrollPhysics(),
                 reverse: true,
                 itemCount: _plantList.length,
                 scrollDirection: Axis.horizontal,
@@ -236,6 +238,7 @@ class _HomePageState extends State<HomePage> {
               height: size.height * 0.3,
               child: ListView.builder(
                 itemCount: _plantList.length,
+                physics: const BouncingScrollPhysics(),
                 itemBuilder: (context, index) {
                   return ProductMaker(
                     plantList: _plantList,
