@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:plant_app/Func/functions.dart';
 import 'package:plant_app/Models/plant.dart';
+import 'package:plant_app/screens/cart_page.dart';
 import 'package:plant_app/statics/consts.dart';
 import 'package:plant_app/widgets/extension.dart';
 
@@ -13,10 +15,15 @@ class DetailPage extends StatefulWidget {
 }
 
 class _DetailPageState extends State<DetailPage> {
+  bool toggleSelected(bool isselected) {
+    return !isselected;
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     List<Plant> plantList = Plant.plantList;
+    List<Plant> cart = Plant.addedToCartPlants();
     return Scaffold(
       body: Stack(
         children: <Widget>[
@@ -192,47 +199,64 @@ class _DetailPageState extends State<DetailPage> {
         width: size.width * 0.9,
         child: Row(
           children: <Widget>[
-            Container(
-              height: 50,
-              width: 50,
-              decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Consts.primaryColor.withOpacity(0.5),
-                  boxShadow: [
-                    BoxShadow(
-                        offset: const Offset(0, 1.1),
-                        color: Consts.primaryColor.withOpacity(0.3),
-                        blurRadius: 5)
-                  ]),
-              child: const Icon(
-                Icons.shopping_cart,
-                color: Colors.white,
-                size: 30,
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    PageTransition(
+                        child: CartPage(myCart: cart),
+                        type: PageTransitionType.bottomToTop));
+              },
+              child: Container(
+                height: 50,
+                width: 50,
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Consts.primaryColor.withOpacity(0.5),
+                    boxShadow: [
+                      BoxShadow(
+                          offset: const Offset(0, 1.1),
+                          color: Consts.primaryColor.withOpacity(0.3),
+                          blurRadius: 5)
+                    ]),
+                child: const Icon(
+                  Icons.shopping_cart,
+                  color: Colors.white,
+                  size: 30,
+                ),
               ),
             ),
             const SizedBox(
               width: 15,
             ),
             Expanded(
-              child: Container(
-                height: 50,
-                decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                        offset: const Offset(0, 1.1),
-                        color: Consts.primaryColor.withOpacity(0.3),
-                        blurRadius: 5)
-                  ],
-                  color: Consts.primaryColor.withOpacity(0.8),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: const Center(
-                  child: Text(
-                    'افزودن به سبد خرید',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold),  //im here
+              child: GestureDetector(
+                onTap: () {
+                  setState(() {
+                    plantList[widget.plantId].isSelected =
+                        toggleSelected(plantList[widget.plantId].isSelected);
+                  });
+                },
+                child: Container(
+                  height: 50,
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                          offset: const Offset(0, 1.1),
+                          color: Consts.primaryColor.withOpacity(0.3),
+                          blurRadius: 5)
+                    ],
+                    color: Consts.primaryColor.withOpacity(0.8),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: const Center(
+                    child: Text(
+                      'افزودن به سبد خرید',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold), //im here
+                    ),
                   ),
                 ),
               ),
