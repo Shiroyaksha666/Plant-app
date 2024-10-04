@@ -24,6 +24,7 @@ class _DetailPageState extends State<DetailPage> {
     Size size = MediaQuery.of(context).size;
     List<Plant> plantList = Plant.plantList;
     List<Plant> cart = Plant.addedToCartPlants();
+    bool isvisible = cart.isNotEmpty;
     return Scaffold(
       body: Stack(
         children: <Widget>[
@@ -157,7 +158,7 @@ class _DetailPageState extends State<DetailPage> {
                             color: Consts.primaryColor),
                       ),
                       const SizedBox(
-                        width: 238,
+                        width: 230,
                       ),
                       SizedBox(
                         height: 25,
@@ -216,13 +217,47 @@ class _DetailPageState extends State<DetailPage> {
                     boxShadow: [
                       BoxShadow(
                           offset: const Offset(0, 1.1),
-                          color: Consts.primaryColor.withOpacity(0.3),
+                          color: isvisible
+                              ? Consts.primaryColor.withOpacity(0.6)
+                              : Consts.primaryColor.withOpacity(0.3),
                           blurRadius: 5)
                     ]),
-                child: const Icon(
-                  Icons.shopping_cart,
-                  color: Colors.white,
-                  size: 30,
+                child: Stack(
+                  children: <Widget>[
+                    const Positioned(
+                      top: 5,
+                      right: 5,
+                      bottom: 5,
+                      left: 5,
+                      child: Icon(
+                        Icons.shopping_cart,
+                        color: Colors.white,
+                        size: 30,
+                      ),
+                    ),
+                    Visibility(
+                      visible: isvisible,
+                      child: Positioned(
+                        right: 0,
+                        top: 0,
+                        child: Container(
+                          height: 20,
+                          width: 20,
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.red.withOpacity(0.8)),
+                          child: Center(
+                              child: Text(
+                            '${cart.length}',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white.withOpacity(0.9),
+                                fontSize: 17),
+                          )),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -236,6 +271,12 @@ class _DetailPageState extends State<DetailPage> {
                     plantList[widget.plantId].isSelected =
                         toggleSelected(plantList[widget.plantId].isSelected);
                   });
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text(
+                    'به سبد خرید شما اضافه شد',
+                    textDirection: TextDirection.rtl,
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+                  )));
                 },
                 child: Container(
                   height: 50,
