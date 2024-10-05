@@ -39,6 +39,7 @@ dependencies:
   page_transition: ^2.1.0
   mobile_scanner: ^5.2.3
   qr_scanner_overlay: ^0.0.2
+  like_button: ^2.0.5
 
 dev_dependencies:
   flutter_test:

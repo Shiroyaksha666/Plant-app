@@ -265,42 +265,83 @@ class _DetailPageState extends State<DetailPage> {
               width: 15,
             ),
             Expanded(
-              child: GestureDetector(
-                onTap: () {
-                  setState(() {
-                    plantList[widget.plantId].isSelected =
-                        toggleSelected(plantList[widget.plantId].isSelected);
-                  });
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      content: Text(
-                    'به سبد خرید شما اضافه شد',
-                    textDirection: TextDirection.rtl,
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
-                  )));
-                },
-                child: Container(
-                  height: 50,
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                          offset: const Offset(0, 1.1),
-                          color: Consts.primaryColor.withOpacity(0.3),
-                          blurRadius: 5)
-                    ],
-                    color: Consts.primaryColor.withOpacity(0.8),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: const Center(
-                    child: Text(
-                      'افزودن به سبد خرید',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold), //im here
+              child: plantList[widget.plantId].isSelected
+                  ? GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          plantList[widget.plantId].isSelected = toggleSelected(
+                              plantList[widget.plantId].isSelected);
+                        });
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(const SnackBar(
+                                content: Text(
+                          'از سبد خرید شما حذف شد',
+                          textDirection: TextDirection.rtl,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 17),
+                        )));
+                      },
+                      child: Container(
+                        height: 50,
+                        decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                                offset: const Offset(0, 1.1),
+                                color: Colors.red.withOpacity(0.3),
+                                blurRadius: 5)
+                          ],
+                          color: Colors.red.withOpacity(0.8),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: const Center(
+                          child: Text(
+                            'حذف از سبد خرید',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold), //im here
+                          ),
+                        ),
+                      ),
+                    )
+                  : GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          plantList[widget.plantId].isSelected = toggleSelected(
+                              plantList[widget.plantId].isSelected);
+                        });
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(const SnackBar(
+                                content: Text(
+                          'به سبد خرید شما اضافه شد',
+                          textDirection: TextDirection.rtl,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 17),
+                        )));
+                      },
+                      child: Container(
+                        height: 50,
+                        decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                                offset: const Offset(0, 1.1),
+                                color: Consts.primaryColor.withOpacity(0.3),
+                                blurRadius: 5)
+                          ],
+                          color: Consts.primaryColor.withOpacity(0.8),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: const Center(
+                          child: Text(
+                            'افزودن به سبد خرید',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold), //im here
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-              ),
             ),
           ],
         ),

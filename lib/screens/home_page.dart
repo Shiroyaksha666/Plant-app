@@ -5,6 +5,7 @@ import 'package:plant_app/Models/plant.dart';
 import 'package:plant_app/screens/detail_page.dart';
 import 'package:plant_app/statics/consts.dart';
 import 'package:plant_app/widgets/plant.dart';
+import 'package:like_button/like_button.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -23,6 +24,7 @@ class _HomePageState extends State<HomePage> {
     '| گل باغچه ای |',
     '| گل سمی |',
   ];
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -115,6 +117,14 @@ class _HomePageState extends State<HomePage> {
                 itemCount: _plantList.length,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
+                  Future<bool> onLikeButtonTapped(bool isLiked) async {
+                    bool isFavorited =
+                        toggleIsFavorited(_plantList[index].isFavorated);
+                    _plantList[index].isFavorated = isFavorited;
+
+                    return !isLiked;
+                  }
+
                   return GestureDetector(
                     onTap: () {
                       Navigator.push(
@@ -144,21 +154,18 @@ class _HomePageState extends State<HomePage> {
                                 borderRadius: BorderRadius.circular(50),
                                 color: Colors.white,
                               ),
-                              child: IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    bool isFavorited = toggleIsFavorited(
-                                        _plantList[index].isFavorated);
-                                    _plantList[index].isFavorated = isFavorited;
-                                  });
-                                },
-                                icon: Icon(
-                                  _plantList[index].isFavorated == true
-                                      ? Icons.favorite
-                                      : Icons.favorite_border_outlined,
-                                  size: 20,
-                                  color: Consts.primaryColor,
-                                ),
+                              child: LikeButton(
+                                padding: const EdgeInsets.only(left: 2),
+                                onTap: onLikeButtonTapped,
+                                size: 25,
+                                bubblesSize: 60,
+                                circleSize: 60,
+                                circleColor: CircleColor(
+                                    start: Consts.blackColor,
+                                    end: Consts.primaryColor),
+                                bubblesColor: BubblesColor(
+                                    dotPrimaryColor: Consts.blackColor,
+                                    dotSecondaryColor: Consts.primaryColor),
                               ),
                             ),
                           ),
