@@ -43,7 +43,9 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    final padding = MediaQuery.of(context).viewInsets;
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -67,78 +69,81 @@ class _HomeState extends State<Home> {
           ),
         ],
       ),
-      body: Stack(
-        children: [
-          PageView(
-            controller: _controll,
-            onPageChanged: (value) {
-              setState(() {
-                currentIndex = value;
-              });
-            },
-            children: [
-              PageCreator(
-                image: 'assets/images/plant-one.png',
-                title: Consts.titleOne,
-                description: Consts.descriptionOne,
-              ),
-              PageCreator(
-                image: 'assets/images/plant-two.png',
-                title: Consts.titleTwo,
-                description: Consts.descriptionTwo,
-              ),
-              PageCreator(
-                image: 'assets/images/plant-three.png',
-                title: Consts.titleThree,
-                description: Consts.descriptionThree,
-              )
-            ],
-          ),
-          Positioned(
-            bottom: 85,
-            left: 30,
-            child: Row(
-              children: indicatorBuilder(),
+      body: Padding(
+        padding: EdgeInsets.only(bottom: padding.bottom),
+        child: Stack(
+          children: [
+            PageView(
+              controller: _controll,
+              onPageChanged: (value) {
+                setState(() {
+                  currentIndex = value;
+                });
+              },
+              children: [
+                PageCreator(
+                  image: 'assets/images/plant-one.png',
+                  title: Consts.titleOne,
+                  description: Consts.descriptionOne,
+                ),
+                PageCreator(
+                  image: 'assets/images/plant-two.png',
+                  title: Consts.titleTwo,
+                  description: Consts.descriptionTwo,
+                ),
+                PageCreator(
+                  image: 'assets/images/plant-three.png',
+                  title: Consts.titleThree,
+                  description: Consts.descriptionThree,
+                )
+              ],
             ),
-          ),
-          Positioned(
-            bottom: 70,
-            right: 30,
-            child: Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Consts.primaryColor,
+            Positioned(
+              bottom: 85,
+              left: 30,
+              child: Row(
+                children: indicatorBuilder(),
               ),
-              child: IconButton(
-                onPressed: () {
-                  setState(() {
-                    if (currentIndex < 2) {
-                      currentIndex++;
-                      if (currentIndex < 3) {
-                        _controll.nextPage(
-                            duration: const Duration(milliseconds: 200),
-                            curve: Curves.easeInOut);
+            ),
+            Positioned(
+              bottom: 70,
+              right: 30,
+              child: Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Consts.primaryColor,
+                ),
+                child: IconButton(
+                  onPressed: () {
+                    setState(() {
+                      if (currentIndex < 2) {
+                        currentIndex++;
+                        if (currentIndex < 3) {
+                          _controll.nextPage(
+                              duration: const Duration(milliseconds: 200),
+                              curve: Curves.easeInOut);
+                        }
+                      } else {
+                        Navigator.pushReplacement(
+                            context,
+                            PageTransition(
+                                child: const UnchangablePage(),
+                                type: PageTransitionType.rightToLeft));
                       }
-                    } else {
-                      Navigator.pushReplacement(
-                          context,
-                          PageTransition(
-                              child: const UnchangablePage(),
-                              type: PageTransitionType.rightToLeft));
-                    }
-                  });
-                },
-                icon: const Padding(
-                  padding: EdgeInsets.all(8),
-                  child: Icon(
-                    Icons.arrow_forward_ios,
-                    color: Colors.white,
+                    });
+                  },
+                  icon: const Padding(
+                    padding: EdgeInsets.all(8),
+                    child: Icon(
+                      Icons.arrow_forward_ios,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
